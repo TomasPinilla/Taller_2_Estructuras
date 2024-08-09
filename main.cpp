@@ -12,7 +12,7 @@
 void processTask(Task &task);
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) {
+  while (argc < 2) {
     std::cerr << "Uso: ./ejecutable <archivo_de_tareas.txt>" << std::endl;
     return 1;
   }
@@ -39,6 +39,9 @@ int main(int argc, char *argv[]) {
 
   TasksFile.close();
 
+  //Mensaje de confirmacion de que todo salio vien al leer el arhivo
+  std::cout << "Archivo de tareas leído correctamente" << std::endl;
+
   while (!tasks.empty()) {
     Task task = tasks.front();
     tasks.pop();
@@ -52,23 +55,28 @@ void processTask(Task &task) {
   Image image(task.inputFileName);
   try {
     // Aplicar el filtro según el nombre especificado
+
     if (task.filterName == "blur") {
       BlurFilter blurFilter;
       blurFilter.apply(image);
+      std::cout << "Filtro de desenfoque aplicado correctamente" << std::endl;
     } else if (task.filterName == "sepia") {
       SepiaFilter sepiaFilter;
       sepiaFilter.apply(image);
+      std::cout << "Filtro sepia aplicado correctamente" << std::endl;
     } else if (task.filterName == "negative") {
       NegativeFilter negativeFilter;
       negativeFilter.apply(image);
+      std::cout << "Filtro negativo aplicado correctamente" << std::endl;
     } else if (task.filterName == "pixelate") {
       PixelateFilter pixelateFilter;
       pixelateFilter.apply(image, 10);
+      std::cout << "Filtro de pixelado aplicado correctamente" << std::endl;
     } else {
       std::cerr << "Filtro no válido: " << task.filterName << std::endl;
       return;
     }
-  } catch (const std::exception& e) {
+    } catch (const std::exception& e) {
     std::cerr << "Error al procesar la tarea ID " << task.id << ": " << e.what()
               << std::endl;
   }
