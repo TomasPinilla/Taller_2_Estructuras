@@ -1,19 +1,26 @@
-#include "negative_filter.h"
+#include "sepia_filter.h"
 
-void NegativeFilter::apply(Image& image) {
+void SepiaFilter::apply(Image& image) {
     std::vector<std::vector<std::vector<int>>> pixels = image.getPixels();
     //-----------------------------------------------------------------------
-    // TODO #5: Implementar el filtro negativo (NEGATIVE).
-    //Declaracion de variables ancho, alto y canales
+    // TODO #6: Implementar el filtro sepia.
+    //Declaracion de las variables ancho y largo de la imagen
     int width = pixels.size();
     int height = pixels[0].size();
-    int channels = pixels[0][0].size();
-    // Aplicar el filtro negativo
+    //Recorrer la imagen por pixels
     for (int x = 0; x < width; ++x) {
         for (int y = 0; y < height; ++y) {
-            for (int c = 0; c < channels; ++c) {
-                pixels[x][y][c] = 255 - pixels[x][y][c];
-            }
+            int originalRed = pixels[x][y][0];
+            int originalGreen = pixels[x][y][1];
+            int originalBlue = pixels[x][y][2];
+            // Aplicar la fórmula para el filtro sepia
+            int sepiaRed   = std::min(255, (int)(0.393 * originalRed + 0.769 * originalGreen + 0.189 * originalBlue));
+            int sepiaGreen = std::min(255, (int)(0.349 * originalRed + 0.686 * originalGreen + 0.168 * originalBlue));
+            int sepiaBlue  = std::min(255, (int)(0.272 * originalRed + 0.534 * originalGreen + 0.131 * originalBlue));
+            // Asignar los nuevos valores
+            pixels[x][y][0] = sepiaRed;
+            pixels[x][y][1] = sepiaGreen;
+            pixels[x][y][2] = sepiaBlue;
         }
     }
     //-----------------------------------------------------------------------
