@@ -8,6 +8,9 @@
 #include <iostream>
 #include <string>
 #include <queue>
+#include <chrono>
+
+
 
 void processTask(Task &task);
 
@@ -45,7 +48,14 @@ int main(int argc, char *argv[]) {
   while (!tasks.empty()) {
     Task task = tasks.front();
     tasks.pop();
+
+    // Medir el tiempo de ejecución de processTask
+    auto start = std::chrono::high_resolution_clock::now();
     processTask(task);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+
+    std::cout << "Tiempo de ejecución de processTask: " << duration.count() << " segundos" << std::endl;
   }
 
   return 0;
